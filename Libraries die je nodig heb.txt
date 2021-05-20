@@ -1,0 +1,13 @@
+Weet niet welke er al standaard inzitten dus miss staan hier overbodige dingen tussen <3
+
+BeautifulSoup
+playsound
+smtplib
+time
+re
+email.message
+webbrowser
+datetime
+requests
+
+i guess dat je ook gewoon naar de imports van dat python bestand kan kijken maar ja boeie
