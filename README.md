@@ -12,6 +12,7 @@ je moet gewoon in de config de dingen invullen, hopelijk is het een beetje duide
 ## Credits
 
 ik heb deze 2 andere projecten gebruikt:
+
 [pollvaccin van tomkooji](https://github.com/tomkooij/pollvaccin)
 
 [vaccinatiescanner van bram-bor](https://github.com/bram-bor/vaccinatiescanner)
