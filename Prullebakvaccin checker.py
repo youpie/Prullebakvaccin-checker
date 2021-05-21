@@ -9,9 +9,12 @@ from email.message import EmailMessage
 import smtplib
 import Config2
 import webbrowser
+import cloudscraper
 
 url = "https://www.prullenbakvaccin.nl/"
 Beginspamfixer = True
+
+
 
 def daytime():
     now = datetime.datetime.now()
@@ -46,6 +49,8 @@ def poll_site(location=Config2.search_domain):
     
     try:
         r = requests.get(url + location)
+        scraper = cloudscraper.create_scraper()
+        r = scraper.get(url + location)
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
         print(e.response.text)
