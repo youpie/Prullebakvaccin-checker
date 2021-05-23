@@ -9,7 +9,7 @@ als je wilt weten hoe je je gmail hiervoor instelt druk [hier](https://www.tutor
 de libraries die je nodig hebt staan in het text bestand die erbij zit
 je moet gewoon in de config de dingen invullen, hopelijk is het een beetje duidelijk.
 
-##NIEUW!!
+## NIEUW!!
 je kan nu 2 locaties en email adressen toevoegen, als je bijvoorbeeld op 2 plekken woont of als je ook voor je vriend wilt kijken. Als je dit niet wilt gebruiken laat dan gewoon `search_domain2` en `recipients2` leeg. `send_emails_to_both` bepaalt of jullie allebij een email krijgen of alleen het email adress dat op dezelfde positie staat als het search domain. als je het niet snapt omdat ik niet kan uitleggen, probeer maar gewoon en kijk wat er gebeurt.
 
 
