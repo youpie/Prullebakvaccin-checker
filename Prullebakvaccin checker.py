@@ -22,14 +22,13 @@ def daytime():
     return now_time < datetime.time(23,00) and now_time >= datetime.time(7,00)
     
 
-def send_email(message, sbjct, debug=True):
+def send_email(message, sbjct, recipient, debug=True):
     print("email sturen")
     msg = EmailMessage()
 
     msg['Subject'] = sbjct
     msg["From"] = Config2.gmail_account
-    msg["To"] = Config2.recipients
-
+    msg["To"] = recipient
     msg.set_content(
         message
     )
@@ -44,7 +43,7 @@ def send_email(message, sbjct, debug=True):
         print(message)
 
 
-def poll_site(location=Config2.search_domain):
+def poll_site(location):
     """poll site for location and return list of locations"""
     
     try:
@@ -74,17 +73,11 @@ def parse_priklocatie(s):
 
 priklocatie_status = {}
 
-print('Start...')
-while True:
-
-    if not daytime():
-        print('geen vaccins in de nacht... morgen weer verder!')
-        time.sleep(3600)
-        continue
-
-    soup = poll_site(Config2.search_domain)
+def Checken(locatie, email, email2):
+    global Beginspamfixer
+    soup = poll_site(locatie)
     if soup:
-        
+
         priklocaties = soup.find_all("div", {"class": "card-body"})
 
         for priklocatie in priklocaties:
@@ -95,26 +88,57 @@ while True:
             priklocatie = priklocatie.replace('Gegevens pas beschikbaar tijdens prikmoment.', '')
 
             id = parse_priklocatie(priklocatie)
-            if "heeftgeenvaccins" not in priklocatie.replace(' ','').lower():
+            #stuur een email als een priklocatie is gevonden
+            if "heeftgeenvaccins" not in priklocatie.replace(' ', '').lower():
                 print('Locatie heeft mogelijk vaccins!', priklocatie)
                 playsound.playsound("alarm.mp3")
-                send_email("GO GO GO GO GO ER IS EEN VACCIN GEVONDEN "+time.ctime()+priklocatie,"MOGELIJK VACCIN GEVONDEN!!!!!")
-                webbrowser.open(url + Config2.search_domain)
+                send_email("GO GO GO GO GO ER IS EEN VACCIN GEVONDEN " + time.ctime() + priklocatie + url + locatie,
+                           "MOGELIJK VACCIN GEVONDEN!!!!!", email)
+                if (email2 != "" and Config2.send_emails_to_both == True):
+                    send_email("GO GO GO GO GO ER IS EEN VACCIN GEVONDEN " + time.ctime() + priklocatie + url + locatie,
+                               "MOGELIJK VACCIN GEVONDEN!!!!!", email2)
+                webbrowser.open(url + locatie)
 
             hash = priklocatie.replace(' ', '')
             status = priklocatie_status.get(id, None)
             if status is None:
                 print('Nieuwe locatie', id)
                 if Beginspamfixer is False:
-                    send_email('Nieuwe locatie: '+priklocatie, f"Mogelijke vaccinatielocatie gevonden in {Config2.search_domain}", "Nieuwe Locatie gevonden")
+                    send_email('Nieuwe locatie: ' + priklocatie,
+                               f"Mogelijke vaccinatielocatie gevonden in {locatie}",
+                               "Nieuwe Locatie gevonden", email)
+                    if (email2 != "" and Config2.send_emails_to_both == True):
+                        send_email('Nieuwe locatie: ' + priklocatie,
+                                   f"Mogelijke vaccinatielocatie gevonden in {locatie}",
+                                   "Nieuwe Locatie gevonden", email2)
             elif status == hash:
                 Beginspamfixer = False
                 continue
             priklocatie_status[id] = hash
 
-        print('We volgen %d priklocaties in de buurt...' % len(priklocatie_status))
-        print(priklocatie_status)    
-        time.sleep(60)
+    print('In ' + locatie + ' volgen we %d priklocaties in de buurt...' % len(priklocatie_status))
+    print(priklocatie_status)
+    print()
+
+print('Start...')
+send_email('Prullenbakvaccin checker staat nu aan en werkt', 'Prullenbakvaccin checker staat nu aan', Config2.recipients)
+if (Config2.recipients2 != ""):
+    send_email('Prullenbakvaccin checker staat nu aan en werkt', 'Prullenbakvaccin checker staat nu aan',
+               Config2.recipients2)
+
+while True:
+
+    if not daytime():
+        print('geen vaccins in de nacht... morgen weer verder!')
+        time.sleep(3600)
+        continue
+
+    Checken(Config2.search_domain, Config2.recipients, Config2.recipients2)
+    priklocatie_status = {}
+    if (Config2.search_domain2 != ""):
+        Checken(Config2.search_domain2, Config2.recipients2, Config2.recipients)
+
+    time.sleep(60)
 
 
 
