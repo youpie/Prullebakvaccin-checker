@@ -128,10 +128,10 @@ if (Config2.recipients2 != ""):
 
 while True:
 
-    if not daytime():
-        print('geen vaccins in de nacht... morgen weer verder!')
-        time.sleep(3600)
-        continue
+    #if not daytime():
+        #print('geen vaccins in de nacht... morgen weer verder!')
+        #time.sleep(3600)
+        #continue
 
     Checken(Config2.search_domain, Config2.recipients, Config2.recipients2)
     priklocatie_status = {}

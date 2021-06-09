@@ -1,4 +1,4 @@
-# okay pog deze code is echt helemaal broken, miss fix ik het wel morgen ofzo
+# Dit ding werkt niet meer vanwege cloudflare protection ofzo en ik ben echt gewoon te lui om het te fixen
 # HALLO
 
 idk hoe dit allemaal werkt, ik zocht gewoon een programma om prullenbakvaccin.nl te checken want ik wil die shit gewoon in mij hebben snap je. En ik vond er een twee maar ze werkte allebij niet zoals ik wilde dus ik heb ze gecombineerd. Het is niet mooi ofzo maar idc, het werkt (denk ik, niet gegarandeerd). het speelt een heel luid geluid af als hij iets vind en hij stuurt je een email.
